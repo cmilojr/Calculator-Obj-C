@@ -60,7 +60,6 @@
 			children = (
 				6AFB8BD32271C231004346F9 /* Controller */,
 				6AFB8BD22271C212004346F9 /* View */,
-				6AFB8BD12271C203004346F9 /* Model */,
 				6A66F203225ECF340034D345 /* Assets.xcassets */,
 				6A66F208225ECF340034D345 /* Info.plist */,
 				6A66F209225ECF340034D345 /* main.m */,
@@ -77,13 +76,6 @@
 				6A66F1FE225ECF320034D345 /* ViewController.m */,
 			);
 			path = profile;
-			sourceTree = "<group>";
-		};
-		6AFB8BD12271C203004346F9 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		6AFB8BD22271C212004346F9 /* View */ = {

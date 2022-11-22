@@ -2,8 +2,7 @@
 //  ViewController.m
 //  Calculator
 //
-//  Created by Shalitha Senanayaka on 2019-04-11.
-//  Copyright © 2019 Shalitha Senanayaka. All rights reserved.
+//  Created by Camilo Jimenez on 22/11/22.
 //
 
 #import "ViewController.h"
@@ -16,21 +15,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    //initialize
-    self.lblExpression.text = @"";
-    self.lblResult.text = @"= ";
-    
-    
+    [[self lblExpression] setText: @""];
+    [[self lblResult] setText: @"= "];
 }
 
 
 // all action buttons pressed
-- (IBAction)btnAction:(UIButton *)sender {
+- (IBAction) btnAction: (UIButton *) sender {
     
     //check if Expression is exists
-    if(self.lblExpression.text.length == 0){
+    if([[[self lblExpression] text] length] == 0){
         return;
     }
     
@@ -38,119 +33,101 @@
     NSString *div = @"/";
     
     //check action is multiply or divition
-    if([sender.titleLabel.text isEqualToString:mul] || [sender.titleLabel.text  isEqualToString:div]){
+    if([[[sender titleLabel] text] isEqualToString: mul] || [[[sender titleLabel] text] isEqualToString: div]) {
         
         //add parenthesis
-        NSString *expression = [NSString stringWithFormat:@"(%@)%@",self.lblExpression.text,sender.titleLabel.text];
-        
-        self.lblExpression.text = expression;
-        
+        NSString *expression = [NSString stringWithFormat:@"(%@)%@", [[self lblExpression] text], [[sender titleLabel] text]];
+        [[self lblExpression] setText: expression];
     }
     else{
-        NSString *expression = [NSString stringWithFormat:@"%@%@",self.lblExpression.text,sender.titleLabel.text];
-        
-        self.lblExpression.text = expression;
+        NSString *expression = [NSString stringWithFormat:@"%@%@", [[self lblExpression] text], [[sender titleLabel] text]];
+        [[self lblExpression] setText: expression];
     }
     
     //initialize result
-    self.lblResult.text = @"= ";
-    
+    [[self lblResult] setText: @"= "];
 }
 
 //Eqal button pressed
-- (IBAction)btnEqal:(UIButton *)sender {
+- (IBAction) btnEqal: (UIButton *) sender {
     
     //check if expression is exists
-    if(self.lblExpression.text.length == 0){
+    if([[[self lblExpression] text] length] == 0){
         return;
     }
     
     @try {
         //add one decimal point to last number to get result as recimal points
-        NSString *numericExpression = [NSString stringWithFormat:@"%@.0", self.lblExpression.text];
+        NSString *numericExpression = [NSString stringWithFormat: @"%@.0", [[self lblExpression] text]];
         
         //replace '*' instead of 'x'
-        numericExpression = [numericExpression stringByReplacingOccurrencesOfString:@"x"
-                                       withString:@"*"];
+        numericExpression = [numericExpression stringByReplacingOccurrencesOfString: @"x"
+                                                                         withString:@"*"];
         
-        NSExpression *expression = [NSExpression expressionWithFormat:numericExpression];
+        NSExpression *expression = [NSExpression expressionWithFormat: numericExpression];
         
-        
-        NSNumber *result = [expression expressionValueWithObject:nil context:nil];
+        NSNumber *result = [expression expressionValueWithObject: nil
+                                                         context: nil];
         
         NSLog(@"%@", [NSString stringWithFormat:@"%@", result]);
-        
-        self.lblResult.text = [NSString stringWithFormat:@"= %@", result];
+        [[self lblResult] setText: [NSString stringWithFormat:@"= %@", result]];
     } @catch (NSException *exception) {
-        NSLog(@"%@", exception.reason);
+        NSLog(@"%@", [exception reason]);
         
         [self displayAlert];
-        
-    } @finally {
-       
-    }
-    
-   
+    } @finally {}
 }
 
 - (IBAction)btnClear:(UIButton *)sender {
     
     //check if expression is exists
-    if(self.lblExpression.text.length == 0){
+    if([[[self lblExpression] text] length] == 0){
         return;
     }
     
-    NSString *numericExpression = self.lblExpression.text;
+    NSString *numericExpression = [[self lblExpression] text];
     
     //get last character
-    NSString *lastChar = [numericExpression substringFromIndex:[numericExpression length] - 1];
+    NSString *lastChar = [numericExpression substringFromIndex: [numericExpression length] - 1];
     
     //check the char is '0)'
     if([lastChar isEqualToString:@")"]){
         
         //then delete '(' and ')'
-        
         NSString *Prefix = @"(";
         NSString *Suffix = @")";
-        NSRange needleRange = NSMakeRange(Prefix.length,
-                                          numericExpression.length - Prefix.length - Suffix.length);
-        numericExpression = [numericExpression substringWithRange:needleRange];
-        
-        
+        NSRange needleRange = NSMakeRange([Prefix length],
+                                          [numericExpression length] - [Prefix length] - [Suffix length]);
+        numericExpression = [numericExpression substringWithRange: needleRange];
     }else{
         //remove last character
-        numericExpression = [numericExpression substringToIndex:[numericExpression length]-1];
+        numericExpression = [numericExpression substringToIndex: [numericExpression length] -1];
     }
     
     //update
-    self.lblExpression.text = numericExpression;
-    self.lblResult.text = @"= ";
+    [[self lblExpression] setText: numericExpression];
+    [[self lblResult] setText: @"= "];
 }
 
 - (IBAction)btnReset:(UIButton *)sender {
-    self.lblResult.text = @"= ";
-    self.lblExpression.text = @"";
+    [[self lblResult] setText: @"= "];
+    [[self lblExpression] setText: @""];
 }
 
 - (IBAction)btnNumberClick:(UIButton *)sender {
-    
-    if(self.lblExpression.text.length != 0){
-        NSString *lastChar = [self.lblExpression.text substringFromIndex:[self.lblExpression.text length] - 1];
+    if([[[self lblExpression] text] length] != 0){
+        NSString *lastChar = [[[self lblExpression] text] substringFromIndex: [[[self lblExpression] text] length] - 1];
         
-        if([lastChar isEqualToString:@"."] && [sender.titleLabel.text isEqualToString:@"."]){
+        if([lastChar isEqualToString:@"."] && [[[sender titleLabel] text] isEqualToString:@"."]){
             return;
         }
     }
     
     //check if enterd double dot
+    NSString *expression = [NSString stringWithFormat: @"%@%@", [[self lblExpression] text], [[sender titleLabel] text]];
     
-    
-    
-    NSString *expression = [NSString stringWithFormat:@"%@%@",self.lblExpression.text,sender.titleLabel.text];
-    
-    self.lblExpression.text = expression;
-    self.lblResult.text = @"= ";
-    
+    [[self lblExpression] setText: expression];
+    [[self lblResult] setText: @"= "];
 }
 
 -(void) displayAlert{
@@ -158,14 +135,18 @@
     NSString *message = @"Incorrect Expression";
     NSString *okButtonText = @"ok";
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle: title
+                                                                   message: message
+                                                            preferredStyle: UIAlertControllerStyleAlert];
     
-    UIAlertAction *okButton = [UIAlertAction actionWithTitle:okButtonText style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle: okButtonText
+                                                       style: UIAlertActionStyleCancel
+                                                     handler: nil];
     
-    [alert addAction:okButton];
+    [alert addAction: okButton];
     
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert
+                       animated: YES
+                     completion: nil];
 }
-
-
 @end

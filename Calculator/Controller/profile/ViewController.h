@@ -2,8 +2,7 @@
 //  ViewController.h
 //  Calculator
 //
-//  Created by Shalitha Senanayaka on 2019-04-11.
-//  Copyright © 2019 Shalitha Senanayaka. All rights reserved.
+//  Created by Camilo Jimenez on 22/11/22.
 //
 
 #import <UIKit/UIKit.h>
@@ -25,7 +24,6 @@
 - (IBAction)btnReset:(UIButton *)sender;
 
 - (IBAction)btnNumberClick:(UIButton *)sender;
-
 
 @end
 
